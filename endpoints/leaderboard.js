@@ -11,6 +11,9 @@ function getleaderboard(req, res){
     Leaderboard
         .getLeaderboardTable()
         .then(result => {
+
+            result.sort(function(a,b){return b.points - a.points || b.goals - a.goals;});
+
             return res.status(200).json(result);
         })
         .catch(err =>{
@@ -25,8 +28,8 @@ function postleaderboard(req, res) {
     teamsArr = req.body;
 
     for(var i = 0; i < teamsArr.length; i++){
-        console.log(teamsArr[i])
-        if(!teamsArr[i].teamName || !teamsArr[i].goals || !teamsArr[i].goalsAgainst || !teamsArr[i].points){
+        console.log(typeof(teamsArr[i].points))
+        if(teamsArr[i].teamName == undefined || teamsArr[i].goals == undefined  || teamsArr[i].goalsAgainst == undefined || teamsArr[i].points == undefined ){
             res.statusMesagge = "One of this parameters is missing in the request: 'teamName', 'goals', 'goalsAgains', 'points'";
             return res.status(406).end(); //not acceptable
         }

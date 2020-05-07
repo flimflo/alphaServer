@@ -23,6 +23,12 @@ function getcommentsUsers(req, res) {
                 return arr.approved == true && arr.section == section;
             });
 
+            arrfilter.sort((a, b) => {
+                let da = new Date(a.creation_date),
+                    db = new Date(b.creation_date);
+                return da - db;
+            });
+
             return res.status(200).json(arrfilter);
         })
         .catch(err =>{
@@ -74,6 +80,12 @@ function getcommentsAdmin(req, res){
 
             var arrfilter = result.filter(function(arr){
                 return arr.approved == false && arr.section == section;
+            });
+
+            arrfilter.sort((a, b) => {
+                let da = new Date(a.creation_date),
+                    db = new Date(b.creation_date);
+                return da - db;
             });
 
             return res.status(200).json(arrfilter);
@@ -137,7 +149,7 @@ function deletecommentsAdmin(req, res){
  
 router.get("/:section", getcommentsUsers);
 router.post("/:section", jsonParser ,postcommentsUsers);
-router.get('/Admin/:section',validateToken, getcommentsAdmin);
+router.get('/Admin/:section', validateToken, getcommentsAdmin);
 router.patch('/Admin/:id', validateToken, jsonParser, updatecommentsAdmin);
 router.delete('/Admin/:id', validateToken,deletecommentsAdmin);
  

@@ -4,11 +4,11 @@ const leaderboardSchema = mongoose.Schema({
 
     teamName : {
         type : String,
-        required : true,
+        required : true
     },
     goals : {
         type : Number,
-        required : true,
+        required : true
     },
     goalsAgainst : {
         type : Number,
@@ -16,7 +16,7 @@ const leaderboardSchema = mongoose.Schema({
     },
     points : {
         type : Number,
-        required: true,
+        required: true
     }
 })
 
