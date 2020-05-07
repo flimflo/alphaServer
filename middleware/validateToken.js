@@ -1,44 +1,34 @@
-const TOKEN = "password12345";
+const { verify } = require('jsonwebtoken')
 
-function validateToken(req, res, next){
+const SECRET = "secret:CHANGEME"
 
-    let token_bearer = req.headers.authorization;
+function extractToken(req) {
+    let auth_header = req.headers.authorization;
     let token_header = req.headers['book-api-key'];
     let token_param = req.query.apiKey;
-  
-    console.log(req.headers);
+    let bearerToken = null
+    if (auth_header) {
+        bearerToken = auth_header.split(' ')[1]
+    }
 
-    if(token_bearer){
-        console.log("bearer")
-        if(token_bearer == `Bearer ${TOKEN}`){
-            //res.status(200).end();
-            next();
-            return
+    return bearerToken || token_header || token_param
+}
+function validateToken(req, res, next){
+    const token = extractToken(req)
+
+    if (token) {
+        try {
+            verify(token, SECRET)
+            return next()
+        } catch(err) {
+            console.log(err)
+            return res.status(402).end(); //Unauthorized
         }
     }
 
-    if(token_header){
-        console.log("header")
-        if(token_header == TOKEN){
-            //res.status(200).end();
-            next();
-            return
-        }
-    }
-
-    if(token_param){
-        console.log("param")
-        if(token_param == TOKEN){
-            //res.status(200).end();
-            next();
-            return
-        }
-    }
-  
 
     res.statusMesagge = "The authorization TOKEN must be sent";
     return res.status(401).end(); //Unauthorized
-    
   }
 
   module.exports = validateToken;
