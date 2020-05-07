@@ -1,10 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose')
+const cors = require('cors')
 const app = express();
 const  commentsRouter = require("./endpoints/comments");
 const leaderboardRouter = require("./endpoints/leaderboard");
 
+app.use(cors())
 
 app.use("/comments", commentsRouter);
 app.use("/leaderboard", leaderboardRouter);
