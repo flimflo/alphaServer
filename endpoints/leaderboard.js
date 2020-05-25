@@ -4,7 +4,7 @@ const {Leaderboard} = require('../models/leaderboardModel');
 const validateToken = require("../middleware/validateToken");
 
 const jsonParser = bodyParser.json();
- 
+
 //GET LEADERBOARD USER
 function getleaderboard(req, res){
 
@@ -35,7 +35,7 @@ function postleaderboard(req, res) {
         }
 
         let newTeam = {
-            teamName: String(teamsArr[i].teamName), 
+            teamName: String(teamsArr[i].teamName),
             goals: Number(teamsArr[i].goals),
             goalsAgainst: Number(teamsArr[i].goalsAgainst),
             points:Number(teamsArr[i].points)
@@ -52,7 +52,7 @@ function postleaderboard(req, res) {
           });
     }
 }
- 
+
 //DELETE LEADERBOARD ADMIN
 function deleteleaderboard(req, res){
 
@@ -67,11 +67,11 @@ function deleteleaderboard(req, res){
         });
 
 }
- 
+
 router.get("/table", getleaderboard);
 router.post("/table", validateToken, jsonParser, postleaderboard);
 router.delete("/table", validateToken, deleteleaderboard);
- 
+
 module.exports = router;
 
 //GET COMMENTS USERS endpoint: http://localhost:8080/leaderboard/table

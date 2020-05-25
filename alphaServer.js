@@ -3,19 +3,30 @@ const morgan = require('morgan');
 const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express();
+const path = require('path');
+const { json } = require('body-parser')
 const  commentsRouter = require("./endpoints/comments");
 const leaderboardRouter = require("./endpoints/leaderboard");
 const authRouter = require("./endpoints/auth");
-const { json } = require('body-parser')
 
 app.use(cors())
 app.use(json())
 
-app.use("/comments", commentsRouter);
-app.use("/leaderboard", leaderboardRouter);
-app.use("", authRouter);
-
 app.use(morgan('dev'));
+app.use("/api/comments", commentsRouter);
+app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api", authRouter);
+
+app.use(express.static('../Alpha_eventos_deportivos/public'))
+app.use('/admin', (req, res) =>
+    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/admin.html')))
+app.use('/reglamento', (req, res) =>
+    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/reglamento.html')))
+app.use('/patrocinadores', (req, res) =>
+    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/patrocinadores.html')))
+app.use('/about', (req, res) =>
+    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/sobre_nosotros.html')))
+
 
 app.listen(8080, ()=>{
     console.log("This server is running on port 8080.")
