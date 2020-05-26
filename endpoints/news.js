@@ -1,53 +1,66 @@
 const router = require("express").Router();
 const bodyParser = require( 'body-parser' );
-const {Leaderboard} = require('../models/leaderboardModel');
+const {News} = require('../models/newsModel');
 const validateToken = require("../middleware/validateToken");
 
 const jsonParser = bodyParser.json();
 
-//GET LEADERBOARD USER
+//GET NEWS
 function getNews(req, res){
-  res.json({
-    articles: [
-      {
-        title: "News Article 1",
-        image_url: "https://i.imgur.com/I20J1iN.jpg",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi rhoncus mauris nec facilisis sollicitudin. In tellus lacus, viverra quis lacinia eget, placerat id metus. Morbi scelerisque justo et orci interdum rutrum. Maecenas dapibus viverra odio, quis viverra elit bibendum non. Morbi at bibendum nulla, vel bibendum eros. Quisque vel felis ligula. Sed laoreet ex sit amet auctor pretium. Aenean semper ultrices eros at bibendum. Duis vitae tellus nec sem tincidunt condimentum non eget mauris. Duis aliquet mi vel aliquet rutrum. Curabitur vitae ornare ligula. Fusce eget eleifend arcu. Phasellus tempus ut urna sed venenatis. Proin mi elit, iaculis et ipsum id, scelerisque suscipit diam. Fusce vitae malesuada est, quis mattis ipsum.",
-        date: (new Date()).toUTCString()
-      },
-      {
-        title: "News Article 2",
-        image_url: "https://i.imgur.com/I20J1iN.jpg",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi rhoncus mauris nec facilisis sollicitudin. In tellus lacus, viverra quis lacinia eget, placerat id metus. Morbi scelerisque justo et orci interdum rutrum. Maecenas dapibus viverra odio, quis viverra elit bibendum non. Morbi at bibendum nulla, pasfpam vel felis ligula. Sed laoreet ex sit amet auctor pretium. Aenean semper ultrices eros at bibendum. Duis vitae tellus nec sem tincidunt condimentum non eget mauris. Duis aliquet mi vel aliquet rutrum. Curabitur vitae ornare ligula. Fusce eget eleifend arcu. Phasellus tempus ut urna sed venenatis. Proin mi elit, iaculis et ipsum id, scelerisque suscipit diam. Fusce vitae malesuada est, quis mattis ipsum.",
-        date: (new Date()).toUTCString()
-      }
-    ]
-  })
+
+    News
+      .getNews()
+      .then(articles => {
+
+          articles.sort((a, b) => {
+            let da = new Date(a.date_created),
+                db = new Date(b.date_created);
+            return da - db;
+          });
+
+          articles.forEach(element => {
+            element.date = element.date_created.toUTCString()
+          });
+
+          return res.status(200).json({articles});
+      })
+      .catch(err =>{
+          res.statusMessage = "Something is wrong with the Database. Try again later.";
+          return res.statusCode(500).end();
+      });
 }
 
-//POST LEADERBOARD ADMIN
-function postleaderboard(req, res) {
+//POST NEW ADMIN
+function postNew(req, res) {
 
-}
+  let title = req.body.title;
+  let image_url = req.body.image_url;
+  let content = req.body.content
 
-//DELETE LEADERBOARD ADMIN
-function deleteleaderboard(req, res){
+  if(!title || !content){
+      res.statusMesagge = "One of this parameters is missing in the request: 'title', 'content'";
+      return res.status(406).end(); //not acceptable
+  }
 
-    Leaderboard
-        .deleteTable()
-        .then(result =>{
-            return res.status(200).json(result);
-        })
-        .catch(err =>{
-            res.statusMessage = "Something is wrong with the Database. Try again later.";
-            return res.statusCode(500).end();
+  let New = {
+      title: String(title), 
+      image_url: String(image_url),
+      content: String(content)
+  }
+
+    News
+      .postNews(New)
+      .then(result =>{
+          return res.status(201).json(New);
+      })
+      .catch( err =>{
+          res.statusMessage = "Something is wrong with the Database. Try again later.";
+          return res.statusCode(500).end();
         });
-
 }
 
 router.get("/", getNews);
-router.post("/table", validateToken, jsonParser, postleaderboard);
-router.delete("/table", validateToken, deleteleaderboard);
+router.post("/", validateToken, jsonParser, postNew);
 
 module.exports = router;
 
