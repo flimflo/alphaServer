@@ -8,6 +8,7 @@ const { json } = require('body-parser')
 const  commentsRouter = require("./endpoints/comments");
 const leaderboardRouter = require("./endpoints/leaderboard");
 const authRouter = require("./endpoints/auth");
+const newsRouter = require("./endpoints/news");
 
 app.use(cors())
 app.use(json())
@@ -15,6 +16,7 @@ app.use(json())
 app.use(morgan('dev'));
 app.use("/api/comments", commentsRouter);
 app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api/news", newsRouter);
 app.use("/api", authRouter);
 
 app.use(express.static('../Alpha_eventos_deportivos/public'))
@@ -26,6 +28,8 @@ app.use('/patrocinadores', (req, res) =>
     res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/patrocinadores.html')))
 app.use('/about', (req, res) =>
     res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/sobre_nosotros.html')))
+app.use('/noticias', (req, res) =>
+    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/noticias.html')))
 
 
 app.listen(8080, ()=>{
