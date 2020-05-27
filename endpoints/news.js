@@ -15,7 +15,7 @@ function getNews(req, res){
           articles.sort((a, b) => {
             let da = new Date(a.date_created),
                 db = new Date(b.date_created);
-            return da - db;
+            return db - da;
           });
 
           articles.forEach(element => {
@@ -43,7 +43,7 @@ function postNew(req, res) {
   }
 
   let New = {
-      title: String(title), 
+      title: String(title),
       image_url: String(image_url),
       content: String(content)
   }
