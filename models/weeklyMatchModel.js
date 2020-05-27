@@ -1,32 +1,35 @@
 const mongoose = require('mongoose');
 
-const newsSchema = mongoose.Schema({
+const matchSchema = mongoose.Schema({
 
-    title : {
+    equipoA : {
         type : String,
         required : true
     },
-    image_url : {
+    equipoB : {
         type : String,
         required : true
     },
-    content : {
+    cancha : {
         type : String,
         required: true
     },
-    date : {
+    hora : {
         type : String,
-        required: true,
-        default: "Fecha"
-    },
-    date_created : {
-        type : Date,
-        required: true,
-        default: Date.now
+        required: true
     }
 })
 
-const weeklyMatchCollection = mongoose.model('weeklyMatch', newsSchema);
+const weeklySchema = mongoose.Schema({
+
+    roles :[matchSchema],
+    date: {
+        type : String,
+        required: true
+    }
+})
+
+const weeklyMatchCollection = mongoose.model('weeklyMatch', weeklySchema);
 
 const   weeklyMatch = {
     getWeeklyMatch : function(){
@@ -48,6 +51,16 @@ const   weeklyMatch = {
             .catch(err => {
                 return err;
             });
+    },
+    deleteWeeklyMatch : function(){
+        return weeklyMatchCollection
+        .deleteMany({ })
+        .then(deletedTable => {
+            return deletedTable;
+        })
+        .catch(err => {
+            return err;
+        });
     }
 }
 
