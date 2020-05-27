@@ -10,9 +10,9 @@ function getWeeklyMatches(req, res){
 
     weeklyMatch
       .getWeeklyMatch()
-      .then(roles => {
-
-          return res.status(200).json({roles});
+      .then(data => {
+          const { roles, date } = data[0]
+          return res.status(200).json({ roles, date });
       })
       .catch(err =>{
           res.statusMessage = "Something is wrong with the Database. Try again later.";
@@ -31,7 +31,7 @@ function postWeeklyMatch(req, res) {
             let date = req.body.date;
 
             for(var i = 0; i < matchArr.length; i++){
-                
+
                 if(matchArr[i].equipoA == undefined || matchArr[i].equipoB == undefined  || matchArr[i].cancha == undefined || matchArr[i].hora == undefined ){
                     res.statusMesagge = "One of this parameters is missing in the request: 'equipoA', 'equipoB', 'cancha', 'hora'";
                     return res.status(406).end(); //not acceptable
@@ -51,18 +51,17 @@ function postWeeklyMatch(req, res) {
             weeklyMatch
             .postWeeklyMatch(newWeeklyMatch)
             .then(result =>{
+                console.log(result)
                 return res.status(201).json(newWeeklyMatch);
             })
             .catch( err =>{
                 res.statusMessage = "Something is wrong with the Database. Try again later.";
-                return res.statusCode(500).end();
-                });
-
-            return res.statusCode(200).json(results);
+                return res.status(500).end();
+            });
         })
         .catch(err =>{
             res.statusMessage = "Something is wrong with the Database. Try again later.";
-            return res.statusCode(500).end();
+            return res.status(500).end();
         });
 }
 
