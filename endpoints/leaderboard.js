@@ -25,7 +25,11 @@ function getleaderboard(req, res){
 //POST LEADERBOARD ADMIN
 function postleaderboard(req, res) {
 
-    teamsArr = req.body;
+    Leaderboard
+        .deleteTable()
+        .then(result =>{
+
+            teamsArr = req.body;
 
     for(var i = 0; i < teamsArr.length; i++){
         console.log(typeof(teamsArr[i].points))
@@ -44,13 +48,20 @@ function postleaderboard(req, res) {
         Leaderboard
         .postLeaderboardTable (newTeam)
         .then(result =>{
-            return res.status(201).json(newTeam);
+            return res.status(201).json(result);
         })
         .catch( err =>{
             res.statusMessage = "Something is wrong with the Database. Try again later.";
             return res.statusCode(500).end();
           });
     }
+
+            return res.status(200).json(result);
+        })
+        .catch(err =>{
+            res.statusMessage = "Something is wrong with the Database. Try again later.";
+            return res.statusCode(500).end();
+        });
 }
 
 //DELETE LEADERBOARD ADMIN
