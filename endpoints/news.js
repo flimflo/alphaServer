@@ -64,6 +64,5 @@ router.post("/", validateToken, jsonParser, postNew);
 
 module.exports = router;
 
-//GET COMMENTS USERS endpoint: http://localhost:8080/leaderboard/table
-//POST COMMENTS USERS endpoint: http://localhost:8080/leaderboard/table
-//DELETE COMMENTS ADMIN endpoint: http://localhost:8080/leaderboard/table
+//GET NEWS endpoint: http://localhost:8080/api/news
+//POST NEW ADMIN endpoint: http://localhost:8080/api/news

@@ -85,6 +85,6 @@ router.delete("/table", validateToken, deleteleaderboard);
 
 module.exports = router;
 
-//GET COMMENTS USERS endpoint: http://localhost:8080/leaderboard/table
-//POST COMMENTS USERS endpoint: http://localhost:8080/leaderboard/table
-//DELETE COMMENTS ADMIN endpoint: http://localhost:8080/leaderboard/table
+//GET LEADERBOARD USER endpoint: http://localhost:8080/api/leaderboard/table
+//POST LEADERBOARD ADMIN endpoint: http://localhost:8080/api/leaderboard/table
+//DELETE LEADERBOARD ADMIN endpoint: http://localhost:8080/api/leaderboard/table
