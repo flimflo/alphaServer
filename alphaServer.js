@@ -10,6 +10,7 @@ const leaderboardRouter = require("./endpoints/leaderboard");
 const authRouter = require("./endpoints/auth");
 const newsRouter = require("./endpoints/news");
 const weeklyMatchRouter = require("./endpoints/weeklyMatch");
+const bestOfLeague = require("./endpoints/bestOfLeague");
 
 app.use(cors())
 app.use(json())
@@ -19,6 +20,7 @@ app.use("/api/comments", commentsRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/weeklymatch", weeklyMatchRouter);
+app.use("/api/best",bestOfLeague);
 app.use("/api", authRouter);
 
 app.use(express.static('../Alpha_eventos_deportivos/public'))
