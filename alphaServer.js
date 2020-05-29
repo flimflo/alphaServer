@@ -27,18 +27,12 @@ app.use("/api/media",media);
 app.use("/api", authRouter);
 
 app.use(express.static('../Alpha_eventos_deportivos/public'))
-app.use('/admin', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/admin.html')))
-app.use('/reglamento', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/reglamento.html')))
-app.use('/patrocinadores', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/patrocinadores.html')))
-app.use('/about', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/sobre_nosotros.html')))
-app.use('/noticias', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/noticias.html')))
-app.use('/media', (req, res) =>
-    res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/media.html')))
+app.use('/admin', (req, res) => res.sendfile(path.join(__dirname, '../public/admin.html')))
+app.use('/reglamento', (req, res) => res.sendfile(path.join(__dirname, '../public/reglamento.html')))
+app.use('/patrocinadores', (req, res) => res.sendfile(path.join(__dirname, '../public/patrocinadores.html')))
+app.use('/about', (req, res) => res.sendfile(path.join(__dirname, '../public/sobre_nosotros.html')))
+app.use('/noticias', (req, res) => res.sendfile(path.join(__dirname, '../public/noticias.html')))
+app.use('/media', (req, res) => res.sendfile(path.join(__dirname, '../public/media.html')))
 
 
 app.listen(PORT, ()=>{
