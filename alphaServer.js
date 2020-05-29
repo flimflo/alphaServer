@@ -5,6 +5,7 @@ const cors = require('cors')
 const app = express();
 const path = require('path');
 const { json } = require('body-parser')
+const {DATABASE_URL, PORT} = require( './config' );
 const  commentsRouter = require("./endpoints/comments");
 const leaderboardRouter = require("./endpoints/leaderboard");
 const authRouter = require("./endpoints/auth");
@@ -40,7 +41,7 @@ app.use('/media', (req, res) =>
     res.sendfile(path.join(__dirname, '../Alpha_eventos_deportivos/public/media.html')))
 
 
-app.listen(8080, ()=>{
+app.listen(PORT, ()=>{
     console.log("This server is running on port 8080.")
 
     const settings = {
@@ -50,7 +51,7 @@ app.listen(8080, ()=>{
     };
 
     new Promise((resolve, reject) =>{
-        mongoose.connect('mongodb://localhost/Alpha',settings,(err)=>{
+        mongoose.connect(DATABASE_URL,settings,(err)=>{
             if(err){
                 return reject(err);
             }

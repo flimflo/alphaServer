@@ -19,8 +19,8 @@ module.exports =  Users = {
   }
 }
 
-// const bcrypt = require('bcrypt')
-// UserCollection.create({
-//   email: "test@test.com",
-//   passwordHash:  bcrypt.hashSync("password", 1)
-// }).then(() => console.log("fake user created"))
+ /*const bcrypt = require('bcrypt')
+ UserCollection.create({
+   email: "test@test.com",
+   passwordHash:  bcrypt.hashSync("password", 1)
+ }).then(() => console.log("fake user created"))*/
