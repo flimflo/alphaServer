@@ -90,7 +90,7 @@ function postMedia(req, res) {
 
 router.get("/photos", getMediaPhoto);
 router.get("/videos", getMediaVideo);
-router.post("/", jsonParser, postMedia);//validateToken, jsonParser, postMedia);
+router.post("/", validateToken, jsonParser, postMedia);
 
 module.exports = router;
 
